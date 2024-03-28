@@ -5,7 +5,7 @@ const app = express();
 const port = 3001;
 const serverLogin = require("./Component/Login/Login.cjs")
 const serverMenu = require("./Component/Sidebar/menu.cjs");
-const sheetmaster = require("./Component/Sheet Structure Master/sheetmaster.cjs")
+const sheetmaster = require("./Component/SheetStructureMaster/sheetmaster.cjs")
 
 oracledb.initOracleClient({
   tnsnames: process.env.TNS_ADMIN,
