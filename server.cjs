@@ -1,0 +1,89 @@
+const express = require("express");
+const oracledb = require("oracledb");
+const { Client } = require("pg");
+const app = express();
+const port = 3001;
+const serverLogin = require("./Component/Login/Login.cjs")
+const serverMenu = require("./Component/Sidebar/menu.cjs");
+const sheetmaster = require("./Component/Sheet Structure Master/sheetmaster.cjs")
+
+oracledb.initOracleClient({
+  tnsnames: process.env.TNS_ADMIN,
+});
+
+const FPC = {
+  user: "fpc",
+  password: "fpc",
+  connectString: "PCTTLIV",
+};
+
+const SMT = {
+  user: "SMT",
+  password: "SMT",
+  connectString: "NAPKDBSV",
+};
+
+const pgConfig = {
+  user: "postgres",
+  host: "10.17.66.120",
+  database: "postgres",
+  password: "postgres",
+  port: 5432,
+};
+
+const pgFETLPSQL_A1 = {
+  user: "fetltrace",
+  host: "10.17.66.120",
+  database: "FETLPSQL_A1",
+  password: "f3tltr@c3",
+  port: 5432,
+}
+
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  next();
+});
+app.use(express.json());
+
+const client = new Client(pgConfig, pgFETLPSQL_A1);
+client.connect()
+  .then(() => {
+    console.log('Connected to PostgreSQL');
+  })
+  .catch(err => {
+    console.error('Unable to connect to PostgreSQL:', err);
+  });
+
+// app.get("/checkconnect", async (req, res) => {
+//   try {
+//     const oracleConnection = await oracledb.getConnection(FPC);
+//     if (oracleConnection) {
+//       res.send("เชื่อมต่อสำเร็จ Oracle");
+//     } else {
+//       res.send("การเชื่อมต่อไม่สำเร็จ");
+//     }
+//     await oracleConnection.close();
+//   } catch (error) {
+//     console.error("เกิดข้อผิดพลาดในการเชื่อมต่อ:", error);
+//     res.send("การเชื่อมต่อไม่สำเร็จ");
+//   }
+// });
+
+//menuname
+app.get("/current-date", serverMenu.getCurrentDate);
+app.post("/MenuName", serverMenu.Menuname);
+app.post("/login", serverLogin.login);
+
+
+//Sheet Structure Master
+app.post("/search/CodeName", sheetmaster.postCodeName);
+app.post("/insSheet_Master", sheetmaster.insertSheet_Master);
+app.post("/updateSheet_Master", sheetmaster.updateSheet_Master);
+app.post("/delSheet_Master", sheetmaster.delSheet_Master);
+app.post("/CheckSHTCode", sheetmaster.postSHTCode);
+
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});
