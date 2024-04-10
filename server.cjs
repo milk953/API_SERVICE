@@ -3,13 +3,13 @@ const oracledb = require("oracledb");
 const { Client } = require("pg");
 const app = express();
 const port = 5353;
-const serverLogin = require("../Login/Login.cjs");
-const serverMenu = require("../Page/Sidebar/menu.cjs");
-const sheetmaster = require("../Page/Sheet Structure Master/sheetmaster.cjs");
-const serialmaster = require("../Page/Serial Structure Master/serialMaster.cjs")
+const serverLogin = require("./Component/Login/Login.cjs");
+const serverMenu = require("./Component/Sidebar/menu.cjs");
+const sheetmaster = require("./Component/SheetStructureMaster/sheetmaster.cjs");
+const serialmaster = require("./Component/SerialStructureMaster/serialMaster.cjs");
 
 oracledb.initOracleClient({
-  tnsAdmin: "D:\\app\\Administrator\\product\\11.2.0\\client_1\\network\\admin",
+  tnsAdmin: process.env.TNS_ADMIN,
 });
 
 const FPC = {

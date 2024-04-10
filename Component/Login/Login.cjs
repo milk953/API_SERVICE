@@ -5,7 +5,7 @@ const app = express();
 
 app.use(express.json());
 
-const connectToDatabase = require('../Page/Common/database.cjs')
+const connectToDatabase = require('../Common/database.cjs')
 
 const { FPC, SMT, pgFETLPSQL_A1, client } = connectToDatabase();
 
