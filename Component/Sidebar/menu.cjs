@@ -1,30 +1,10 @@
 const express = require("express");
 const oracledb = require("oracledb");
-const { Client } = require("pg");
 const app = express();
 
-const FPC = {
-    user: "fpc",
-    password: "fpc",
-    connectString: "PCTTLIV",
-  };
-  
-  const SMT = {
-    user: "SMT",
-    password: "SMT",
-    connectString: "NAPKDBSV",
-  };
+const connectToDatabase = require('../Common/database.cjs');
 
-const pgConfig = {
-  user: "postgres",
-  host: "10.17.66.120",
-  database: "postgres",
-  password: "postgres",
-  port: 5432,
-};
-
-const client = new Client(pgConfig);
-client.connect();
+const { FPC, SMT, pgFETLPSQL_A1, client } = connectToDatabase();
 
 module.exports.getCurrentDate = async function (req, res) {
   try {

@@ -2,24 +2,12 @@ const express = require("express");
 const oracledb = require("oracledb");
 const { Client } = require("pg");
 const app = express();
+
 app.use(express.json());
 
-const FPC = {
-    user: "fpc",
-    password: "fpc",
-    connectString: "PCTTLIV",
-};
+const connectToDatabase = require('../Page/Common/database.cjs')
 
-const pgFETLPSQL_A1 = {
-    user: "fetltrace",
-    host: "10.17.66.120",
-    database: "FETLPSQL_A1",
-    password: "f3tltr@c3",
-    port: 5432,
-}
-
-const client = new Client(pgFETLPSQL_A1);
-client.connect();
+const { FPC, SMT, pgFETLPSQL_A1, client } = connectToDatabase();
 
 module.exports.login = async function (req, res) {
     try {

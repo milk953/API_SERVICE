@@ -1,31 +1,10 @@
 const express = require("express");
-const oracledb = require("oracledb");
-const { Client } = require("pg");
 const app = express();
 app.use(express.json());
 
-const FPC = {
-    user: "fpc",
-    password: "fpc",
-    connectString: "PCTTLIV",
-};
+const connectToDatabase = require('../Common/database.cjs');
 
-const SMT = {
-    user: "SMT",
-    password: "SMT",
-    connectString: "NAPKDBSV",
-};
-
-const pgFETLPSQL_A1 = {
-    user: "fetltrace",
-    host: "10.17.66.120",
-    database: "FETLPSQL_A1",
-    password: "f3tltr@c3",
-    port: 5432,
-};
-
-const client = new Client(pgFETLPSQL_A1);
-client.connect();
+const { FPC, SMT, pgFETLPSQL_A1, client } = connectToDatabase();
 
 module.exports.postCodeName = async function (req, res) {
     //app.post("/search/CodeName", async (req, res) => {
@@ -123,19 +102,19 @@ module.exports.postCodeName = async function (req, res) {
     values('${sht_code}',
       '${sht_name}',
       '${plant_flag}',
-      ${plant_code ? `'${plant_code}'` : null},
-      ${plant_start_digit ? `'${plant_start_digit}'` : null},
-      ${plant_end_digit ? `'${plant_end_digit}'` : null},
+       ${plant_code ? `'${plant_code}'` : null},
+       ${plant_start_digit ? `'${plant_start_digit}'` : null},
+       ${plant_end_digit ? `'${plant_end_digit}'` : null},
       '${lot_flag}',
-      ${lot_start_digit ? `'${lot_start_digit}'` : null},
-      ${lot_end_digit ? `'${lot_end_digit}'` : null},
+       ${lot_start_digit ? `'${lot_start_digit}'` : null},
+       ${lot_end_digit ? `'${lot_end_digit}'` : null},
       '${model_flag}',
-      ${model_start_digit ? `'${model_start_digit}'` : null},
-      ${model_end_digit ? `'${model_end_digit}'` : null},
+       ${model_start_digit ? `'${model_start_digit}'` : null},
+       ${model_end_digit ? `'${model_end_digit}'` : null},
       '${seq_flag}',
-      ${seq_format ? `'${seq_format}'` : null},
-      ${seq_start_digit ? `'${seq_start_digit}'` : null},
-      ${seq_end_digit ? `'${seq_end_digit}'` : null},
+       ${seq_format ? `'${seq_format}'` : null},
+       ${seq_start_digit ? `'${seq_start_digit}'` : null},
+       ${seq_end_digit ? `'${seq_end_digit}'` : null},
       '${emp_id}',
       current_timestamp,
       '${ip_address}')
